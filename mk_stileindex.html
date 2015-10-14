@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="./lib/coordinate.js" type="text/javascript"></script>
+
+<title>指定したエクステントが含まれるシンプルマップタイルのインデックスを作成する</title>
+</head>
+<body>
+
+<div id="info">Extent to Index</div>
+<label>xmin</label><input type="text" id="xmin" value="-35100.00">
+<label>ymin</label><input type="text" id="ymin" value="-44800.00">
+<label>xmax</label><input type="text" id="xmax" value="-35100.00">
+<label>ymax</label><input type="text" id="ymax" value="-44800.00">
+<button text="GO" id="go">
+
+<script>
+
+  // 新規空オブジェクト生成
+  var coord = new coordinate(9);
+//  coord.setXY(0.0003,0.0003);
+//  coord.setXY(11543.6883,22916.2436);
+  //雲取山
+//  coord.setXY(-15666.6478,-80333.1692);
+  // 佐野駅
+//  coord.setXY(35104,-22850);
+  // 八王子駅
+  coord.setXY(-38107,-44782);
+//  // 宇宙線研究所
+//  coord.setXY(-10784.6618,9536.7642);
+  
+//  var gObj = coord.getGTileZXY(0);
+//  var sObj = coord.getSTileZXY(0);
+
+//  var gObj = coord.getGTileZXY(1);
+//  var sObj = coord.getSTileZXY(1);
+
+//   var sObj = coord.getGTileZXY(2);
+//  var sObj = coord.getSTileZXY(2);
+  
+//  var sObj = coord.getGTileZXY(3);
+//  var sObj = coord.getSTileZXY(3);
+
+//  var sObj = coord.getGTileZXY(4);
+//  var sObj = coord.getSTileZXY(4);
+
+//  var sObj = coord.getGTileZXY(5);
+//  var sObj = coord.getSTileZXY(5);
+
+//  var sObj = coord.getGTileZXY(6);
+//  var sObj = coord.getSTileZXY(6);
+
+//  var sObj = coord.getGTileZXY(7);
+//  var sObj = coord.getSTileZXY(7);
+
+//  var sObj = coord.getSTileZXY(8);
+//  var sObj = coord.getSTileZXY(9);
+//  var sObj = coord.getSTileZXY(10);
+//  var sObj = coord.getSTileZXY(11);
+//  var sObj = coord.getSTileZXY(12);
+//  var sObj = coord.getSTileZXY(13);
+//  var sObj = coord.getSTileZXY(14);
+//  var sObj = coord.getSTileZXY(15);
+
+//  var sObj = coord.getSTileZXY(16);
+  var sObj = coord.getSTileZXY(20);
+  var sExtent = tile2extent(sObj);
+
+//  var sObj = coord.getSTileZXY(17);
+//  var sObj = coord.getSTileZXY(18);
+
+//  var sObj = coord.getGTileZXY(19);
+//  var sObj = coord.getSTileZXY(19);
+
+//  alert(obj.kei);
+//  alert(obj);
+  alert(coord.Lon+' '+coord.Lat);
+  alert(sObj);
+  alert(sExtent);
+  
+  coord.setLonLat(sExtent[0],sExtent[1]);
+
+</script>
+</body>
+</html>
