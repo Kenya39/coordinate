@@ -9,77 +9,63 @@
 <body>
 
 <div id="info">Extent to Index</div>
-<label>xmin</label><input type="text" id="xmin" value="-35100.00">
+<label>xmin</label><input type="text" id="xmin" value="-38100.00">
 <label>ymin</label><input type="text" id="ymin" value="-44800.00">
-<label>xmax</label><input type="text" id="xmax" value="-35100.00">
+<label>xmax</label><input type="text" id="xmax" value="-38100.00">
 <label>ymax</label><input type="text" id="ymax" value="-44800.00">
-<button text="GO" id="go">
+<br>
+<input type="button" name="move" value="作成" onClick="goMake()"></input>
 
 <script>
 
+function goMake(){
   // 新規空オブジェクト生成
-  var coord = new coordinate(9);
-//  coord.setXY(0.0003,0.0003);
-//  coord.setXY(11543.6883,22916.2436);
-  //雲取山
-//  coord.setXY(-15666.6478,-80333.1692);
-  // 佐野駅
-//  coord.setXY(35104,-22850);
-  // 八王子駅
-  coord.setXY(-38107,-44782);
-//  // 宇宙線研究所
-//  coord.setXY(-10784.6618,9536.7642);
+  var coordMin = new coordinate(9);
+  var coordMax = new coordinate(9);
+  // input フィールドの値を変数に設定
+  xmin = parseFloat(document.getElementById("xmin").value);
+  ymin = parseFloat(document.getElementById("ymin").value);
+  xmax = parseFloat(document.getElementById("xmax").value);
+  ymax = parseFloat(document.getElementById("ymax").value);
+
+  coordMin.setXY(xmin,ymin);
+  var sTile = coordMin.getSTileZXY(20);
+  var sExtent = tile2extent(sTile);
+  coordMin.setLonLat(sExtent[0],sExtent[1]);
+  xminS = coordMin.X;
+  yminS = coordMin.Y;
   
-//  var gObj = coord.getGTileZXY(0);
-//  var sObj = coord.getSTileZXY(0);
-
-//  var gObj = coord.getGTileZXY(1);
-//  var sObj = coord.getSTileZXY(1);
-
-//   var sObj = coord.getGTileZXY(2);
-//  var sObj = coord.getSTileZXY(2);
+  coordMax.setLonLat(sExtent[2],sExtent[3]);
+  xmaxS = coordMax.X;
+  ymaxS = coordMax.Y;
   
-//  var sObj = coord.getGTileZXY(3);
-//  var sObj = coord.getSTileZXY(3);
+  stileID = sTile[0] + '/' +sTile[1] +'/' + sTile[2];
 
-//  var sObj = coord.getGTileZXY(4);
-//  var sObj = coord.getSTileZXY(4);
+var geojsonObject = {
+  'type': 'FeatureCollection',
+'crs': {
+    'type': 'name',
+    'properties': {
+      'name': 'EPSG:2451'
+    }
+  },
+  'features': [
 
-//  var sObj = coord.getGTileZXY(5);
-//  var sObj = coord.getSTileZXY(5);
+    {
+      'type': 'Feature',
+      'properties': { 'id': stileID },
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [[[xminS, yminS],[xminS, ymaxS],[xmaxS, ymaxS],[xmaxS, yminS],[xminS, yminS]]]
+      }
+    }]
+}
 
-//  var sObj = coord.getGTileZXY(6);
-//  var sObj = coord.getSTileZXY(6);
+var json_text =  JSON.stringify(geojsonObject);
+//alert(json_text);
+document.write(json_text) 
 
-//  var sObj = coord.getGTileZXY(7);
-//  var sObj = coord.getSTileZXY(7);
-
-//  var sObj = coord.getSTileZXY(8);
-//  var sObj = coord.getSTileZXY(9);
-//  var sObj = coord.getSTileZXY(10);
-//  var sObj = coord.getSTileZXY(11);
-//  var sObj = coord.getSTileZXY(12);
-//  var sObj = coord.getSTileZXY(13);
-//  var sObj = coord.getSTileZXY(14);
-//  var sObj = coord.getSTileZXY(15);
-
-//  var sObj = coord.getSTileZXY(16);
-  var sObj = coord.getSTileZXY(20);
-  var sExtent = tile2extent(sObj);
-
-//  var sObj = coord.getSTileZXY(17);
-//  var sObj = coord.getSTileZXY(18);
-
-//  var sObj = coord.getGTileZXY(19);
-//  var sObj = coord.getSTileZXY(19);
-
-//  alert(obj.kei);
-//  alert(obj);
-  alert(coord.Lon+' '+coord.Lat);
-  alert(sObj);
-  alert(sExtent);
-  
-  coord.setLonLat(sExtent[0],sExtent[1]);
+}
 
 </script>
 </body>
