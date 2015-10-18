@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC -//W3C//DTD XHTML 1.0 Strict//EN http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd>
+ <html lang="en">
+ <head>
+	 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	 <link rel="stylesheet" href="" type="text/css"/>
+	 <link rel="stylesheet" href="ol3/3.8.2/ol.css" type="text/css"></link>
+	 <script src="ol3/3.8.2/ol.js"></script>
+ </head>
+	 <body>
+<!--
+<div>
+緯度<input id= "lat" type="text" value="36.065"></input>
+経度<input id= "lon" type="text" value="139.677"></input>
+<button id="pan">移動</button>
+<button id="cl" onclick="start()">現在地(開始)</button>
+<button id="cl" onclick="stop()">現在地(停止)</button>
+<div id="message">停止中</div>
+</div>
+-->
+<div class= "container-fluid">
+	   <div class="row-fluid">
+
+            <div class= "span12">
+                <div id= "map" class= "map"></div>
+    	   </div>
+       </div>
+     </div>
+<script>
+
+var view = new ol.View({
+  // the view's initial state
+  center:[15539700, 4344650],
+  zoom:15
+});
+
+var osmSource = new ol.source.OSM();
+var tileSource = new ol.source.TileDebug(
+  {
+    projection:  'EPSG:3857',
+    tileGrid: osmSource.getTileGrid()
+  });
+
+var map = new ol.Map({
+  layers: [
+    new ol.layer.Tile({
+      source:osmSource
+    }),
+    new ol.layer.Tile({
+      source: tileSource
+     })
+   ],
+   target: 'map',
+   view: view
+});
+
+function mvpan(lat1,lon1){
+//  var lat1 = document.getElementById('lat').value;
+
+//  var lon1 = document.getElementById('lon').value;
+
+// テスト
+  var london = ol.proj.fromLonLat([+lon1, +lat1]);
+
+  // 移動時のアニメーションを設定
+  var pan = ol.animation.pan({
+    duration: 2000,
+    source: (view.getCenter())
+  });
+  map.beforeRender(pan);
+  view.setCenter(london);
+}
+
+
+// 位置情報取得処理に渡すオプション
+var options = {
+    // 高精度な位置情報を取得するか(デフォルトはfalse)
+    enableHightAccuracy: true,
+    
+    // 取得した位置情報をキャッシュする時間(ミリ秒。デフォルトは0)
+    maximumAge: 0,
+    
+    // 何秒でタイムアウトとするか(ミリ秒。タイムアウトするとerrorCallback()がコールされる)
+    timeout: 120000
+}
+
+// 位置情報取得処理が成功した時にコールされる関数
+// 引数として、coords(coordinates。緯度・経度など)とtimestamp(タイムスタンプ)の2つを持ったpositionが渡される
+function successCallback(position){
+    // メッセージを表示
+//    document.getElementById("message").innerHTML += "API成功<br />";
+
+    // 引数positionからcoordinates(緯度・経度など)を取り出す
+    // ただし、“★必ず取得できる”以外は中身が空っぽの可能性もある
+    
+    // 緯度(-180～180度) ★必ず取得できる
+    var latitude         = position.coords.latitude;
+    
+    // 経度(-90～90度) ★必ず取得できる
+    var longitude        = position.coords.longitude;
+    
+    // 高度(m)
+    var altitude         = position.coords.altitude;
+    
+    // 緯度・経度の誤差(m) ★必ず取得できる
+    var accuracy         = position.coords.accuracy;
+    
+    // 高度の誤差(m)
+    var altitudeAccuracy = position.coords.altitudeAccuracy;
+    
+    // 方角(0～360度)
+    var heading          = position.coords.heading;
+    
+    // 速度(m/秒)
+    var speed            = position.coords.speed;
+    
+    
+    // 引数positionからtimestamp(位置情報を取得した時刻のミリ秒)を取り出す ★必ず取得できる
+    var timestamp = position.timestamp;
+    
+    // timestampをDate型に変換
+    var successDate = new Date(timestamp);
+
+
+    
+    // 地図を移動させる
+    var curLocation = ol.proj.fromLonLat([+longitude, +latitude]);
+  
+    // 移動時のアニメーションを設定
+    var pan = ol.animation.pan({
+      duration: 2000,
+      source: (view.getCenter())
+    });
+    map.beforeRender(pan);
+    view.setCenter(curLocation);
+
+
+    // メッセージ表示領域をクリア
+    document.getElementById("message").innerHTML = "";
+    document.getElementById("message").innerHTML += "取得日時：" + successDate.toLocaleString() + "<br />";
+
+    // メッセージを表示
+//    document.getElementById("message").innerHTML += "取得日時：" + successDate.toLocaleString() + "<br />";
+//    document.getElementById("message").innerHTML += "緯度：" + latitude + " 度<br />";
+//    document.getElementById("message").innerHTML += "経度：" + longitude + " 度<br />";
+//    document.getElementById("message").innerHTML += "高度：" + altitude + " m<br />";
+//    document.getElementById("message").innerHTML += "緯度・経度の誤差：" + accuracy + " m<br />";
+//    document.getElementById("message").innerHTML += "高度の誤差：" + altitudeAccuracy + " m<br />";
+//    document.getElementById("message").innerHTML += "方角：" + heading + " 度<br />";
+//    document.getElementById("message").innerHTML += "速度：" + speed + " m/秒<br />";
+//    
+//    // 緯度・経度を地図上で確認するためにGoogleMapへのリンクを作成
+//    document.getElementById("message").innerHTML += "<a target='_blank' href='https://maps.google.co.jp/maps?q=" 
+//        + latitude + "," + longitude + "+%28%E7%8F%BE%E5%9C%A8%E4%BD%8D%E7%BD%AE%29&iwloc=A'>緯度・経度をGoogleMapで確認</a><br /><br />";
+
+
+}
+
+// 位置情報取得処理が失敗した時にコールされる関数
+// 引数として、code(コード)とmessage(メッセージ)の2つを持ったpositionErrorが渡される
+function errorCallback(positionError){
+    
+    // メッセージを表示
+    document.getElementById("message").innerHTML += "API失敗<br />";
+
+
+    // 引数positionErrorの中身2つを取り出す
+    
+    // コード(1～3のいずれかの値)
+    var code = positionError.code;
+    
+    // メッセージ(開発者向けデバッグ用メッセージ)
+    var message = positionError.message;
+    
+    
+    // コードに応じたメッセージを表示
+    switch (code) {
+        case positionError.PERMISSION_DENIED: // codeが1
+            document.getElementById("message").innerHTML += "GeolocationAPIのアクセス許可がありません<br />";
+            break;
+            
+        case positionError.POSITION_UNAVAILABLE: // codeが2
+            document.getElementById("message").innerHTML += "現在の位置情報を特定できませんでした<br />";
+            break;
+            
+        case positionError.TIMEOUT: // codeが3
+            document.getElementById("message").innerHTML += "指定されたタイムアウト時間内に現在の位置情報を特定できませんでした<br />";
+            break;
+    }
+    
+    // 開発者向けデバッグ用メッセージを表示
+    document.getElementById("message").innerHTML += message + "<br /><br />";
+} 
+
+// watchPosition()の戻り値。この戻り値をclearWatch()に渡すことでwatch(監視)を停止させる。
+var watchId = null;
+
+// 位置情報監視開始
+function start(){
+    // watchIdが設定されているかをチェック
+    if (watchId == null) {
+        // 設定されていない → 監視中ではないのでwatch開始
+        
+        // メッセージ表示領域をクリア
+        document.getElementById("message").innerHTML = "";
+
+        // ブラウザがGeolocation APIに対応しているかをチェック
+        if (navigator.geolocation) {
+            // 対応している → 位置情報監視開始
+            // 取得成功時にsuccessCallback()、そして取得失敗時にerrorCallback()がコールされる
+            // optionsはgetCurrentPosition()に渡す設定値
+            watchId = navigator.geolocation.watchPosition(successCallback, errorCallback , options);
+            
+            // メッセージを表示。↑は非同期処理なので、直ぐにメッセージが表示される
+            document.getElementById("message").innerHTML = "API実行<br />";
+        } else {
+            // 対応していない → alertを表示するのみ
+            alert("Geolocation not supported in this browser");
+        }
+    } else {
+        // 設定されている → 監視中なのでwatch停止
+        navigator.geolocation.clearWatch(watchId);
+        
+        // watchIdを空にする
+        watchId = null;
+        
+        // メッセージ表示領域をクリア
+        document.getElementById("message").innerHTML = "";
+        // メッセージを表示
+        document.getElementById("message").innerHTML += "停止中<br />";
+    }
+}
+
+// 位置情報監視停止
+function stop(){
+    // watchIdが設定されているかをチェック
+    if (watchId != null) {
+        // 設定されている → 監視中なのでwatch停止
+        navigator.geolocation.clearWatch(watchId);
+        
+        // watchIdを空にする
+        watchId = null;
+        
+        // メッセージを表示
+        document.getElementById("message").innerHTML += "clearWatch実行(watch停止)<br />";
+    }
+}
+
+</script>
+
+	
