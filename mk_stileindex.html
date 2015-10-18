@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="./lib/coordinate.js" type="text/javascript"></script>
+
+<title>指定したエクステントが含まれるシンプルマップタイルのインデックスを作成する</title>
+</head>
+<body>
+
+<div id="info">Extent to Index</div>
+<label>xmin</label><input type="text" id="xmin" value="-44800.00">
+<label>ymin</label><input type="text" id="ymin" value="-38100.00">
+
+<!--
+<label>xmax</label><input type="text" id="xmax" value="-44800.00">
+<label>ymax</label><input type="text" id="ymax" value="-38100.00">
+-->
+<label>xmax</label><input type="text" id="xmax" value="-44500.00">
+<label>ymax</label><input type="text" id="ymax" value="-37800.00">
+
+<br>
+<input type="button" name="move" value="作成" onClick="goMake()"></input>
+
+<script>
+
+function goMake(){
+  // input フィールドの値を変数に設定
+  zoomL = 16
+  xmin = parseFloat(document.getElementById("xmin").value);
+  ymin = parseFloat(document.getElementById("ymin").value);
+  xmax = parseFloat(document.getElementById("xmax").value);
+  ymax = parseFloat(document.getElementById("ymax").value);
+
+  // 新規空オブジェクト生成
+  var coordMin = new coordinate(9);
+  var coordMax = new coordinate(9);
+  var coordWrk = new coordinate(9);
+
+  // Extentの最小値側のタイルとそのエクステントを取得
+  coordMin.setXY(xmin,ymin);
+  var sTileMin = coordMin.getSTileZXY(zoomL);
+  
+  // Extentの最大値側のタイルとそのエクステントを取得
+  coordMax.setXY(xmax,ymax);
+  var sTileMax = coordMax.getSTileZXY(16);
+  
+  var featuresXYArray = new Array();
+  var featuresLonLatArray = new Array();
+  featureNum = 0;
+
+//Y軸は北が数値が小さいのでMaxからMinへカウントアップ
+  for (var j = sTileMax[2]; j <= sTileMin[2] ; j ++ ){  
+    // X座標を
+    for (var i = sTileMin[1]; i <= sTileMax[1] ; i ++ ){
+      
+      sTileWrk = [zoomL, i, j]
+      
+      var sExtent = tile2extent(sTileWrk);
+
+//      var sExtentMax = tile2extent(sTileMax);
+      
+      coordWrk.setLonLat(sExtent[0],sExtent[1]);
+      xminS = coordWrk.X;
+      yminS = coordWrk.Y;
+  
+      coordWrk.setXY(xminS,yminS);
+      lonminS = coordWrk.Lon;
+      latminS = coordWrk.Lat;
+  
+      coordWrk.setLonLat(sExtent[2],sExtent[3]);
+      xmaxS = coordWrk.X;
+      ymaxS = coordWrk.Y;
+
+      coordWrk.setXY(xmaxS,ymaxS);
+      lonmaxS = coordWrk.Lon;
+      latmaxS = coordWrk.Lat;
+      
+      stileID = zoomL + '/' + i +'/' + j;
+      
+      var featureXYObj = {
+            'type': 'Feature',
+            'properties': { 'zxy': stileID },
+            'geometry': {
+              'type': 'Polygon',
+              'coordinates': [[[xminS, yminS],[xminS, ymaxS],[xmaxS, ymaxS],[xmaxS, yminS],[xminS, yminS]]]
+            }
+          };
+      featuresXYArray[featureNum] = featureXYObj;
+
+      var featureLonLatObj = {
+            'type': 'Feature',
+            'properties': { 'zxy': stileID },
+            'geometry': {
+              'type': 'Polygon',
+              'coordinates': [[[lonminS, latminS],[lonminS, latmaxS],[lonmaxS, latmaxS],[lonmaxS, latminS],[lonminS, latminS]]]
+            }
+          };
+      featuresLonLatArray[featureNum] = featureLonLatObj;
+      
+      featureNum ++;
+
+    
+    }
+  }
+      var geojsonObjectXY = {
+        'type': 'FeatureCollection',
+        'features': featuresXYArray
+      }
+
+      var geojsonObjectLonLat = {
+        'type': 'FeatureCollection',
+        'features': featuresLonLatArray
+      }
+  
+    var json_textXY =  JSON.stringify(geojsonObjectXY);
+    var json_textLonLat =  JSON.stringify(geojsonObjectLonLat);
+  
+    document.write(json_textXY) 
+    document.write("<br/>") 
+    document.write(json_textLonLat) 
+  
+
+
+
+}
+
+</script>
+</body>
+</html>
