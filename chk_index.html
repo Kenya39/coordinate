@@ -48,125 +48,20 @@
     </div>
     <script type="text/javascript">
 
-//		var geojsonObject = {
-//		  'type': 'FeatureCollection',
-//		  'crs': {
-//		    'type': 'name',
-//		    'properties': {
-////		      'name': 'EPSG:2451'
-//		      'name': 'EPSG:4326'
-////              'name': 'EPSG:3857'
-//		    }
-//		  },
-//		  'features': [
-//		    {
-//		      'type': 'Feature',
-//		      'properties': { "id": 1 },
-//		      'geometry': {
-//		        'type': 'Point',
-//		        'coordinates': [ 0, 0 ]
-////		        'coordinates': [ 139.34, 35.66 ]
-////		        'coordinates': [ -46904.894142981691, -37036.772132006685 ]
-//		      }
-//		    }
-//		   ]
-//		   };
-
-var geojsonObject = {
-  'type': 'FeatureCollection',
-  'crs': {
-    'type': 'name',
-    'properties': {
-      'name': 'EPSG:3857'
-    }
-  },
-  'features': [
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [15511098.00, 4253500.00]
-      }
-    },
-  
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'Point',
-        'coordinates': [15511000, 4253540]
-      }
-    },
-  
-
-    
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'LineString',
-        'coordinates': [[4e6, -2e6], [8e6, 2e6]]
-      }
-    },
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'LineString',
-        'coordinates': [[4e6, 2e6], [8e6, -2e6]]
-      }
-    },
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'Polygon',
-        'coordinates': [[[-5e6, -1e6], [-4e6, 1e6], [-3e6, -1e6]]]
-      }
-    },
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'MultiLineString',
-        'coordinates': [
-          [[-1e6, -7.5e5], [-1e6, 7.5e5]],
-          [[1e6, -7.5e5], [1e6, 7.5e5]],
-          [[-7.5e5, -1e6], [7.5e5, -1e6]],
-          [[-7.5e5, 1e6], [7.5e5, 1e6]]
-        ]
-      }
-    },
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'MultiPolygon',
-        'coordinates': [
-          [[[-5e6, 6e6], [-5e6, 8e6], [-3e6, 8e6], [-3e6, 6e6]]],
-          [[[-2e6, 6e6], [-2e6, 8e6], [0, 8e6], [0, 6e6]]],
-          [[[1e6, 6e6], [1e6, 8e6], [3e6, 8e6], [3e6, 6e6]]]
-        ]
-      }
-    },
-    {
-      'type': 'Feature',
-      'geometry': {
-        'type': 'GeometryCollection',
-        'geometries': [
-          {
-            'type': 'LineString',
-            'coordinates': [[-5e6, -5e6], [0, -5e6]]
-          },
-          {
-            'type': 'Point',
-            'coordinates': [4e6, -5e6]
-          },
-          {
-            'type': 'Polygon',
-            'coordinates': [[[1e6, -6e6], [2e6, -4e6], [3e6, -6e6]]]
-          }
-        ]
-      }
-    }
-  ]
-};
-
-		   
+		var geojsonObject = {
+		  'type': 'FeatureCollection',
+		  'features': [
+		    {
+		      'type': 'Feature',
+		      'properties': { "id": 1 },
+		      'geometry': {
+		        'type': 'Point',
+		        'coordinates': [ 0, 0 ]
+		        'coordinates': [ 139.34, 35.66]
+		      }
+		    }
+		   ]
+		   };
 		   
 		   
 		 var vectorSource = new ol.source.Vector({
@@ -195,17 +90,7 @@ var geojsonObject = {
               })
             }),
 
-//          new ol.layer.Tile({
-//              source: new ol.source.XYZ({
-//                  url: 'img0306/{z}/{x}/{-y}.png'
-//              })
-//          }),
-
-            new ol.layer.Tile({
-              source: new ol.source.XYZ({
-                  url: 'img0307/{z}/{x}/{-y}.png'
-              })
-          }),
+  
           vectorLayer
         ],
           
