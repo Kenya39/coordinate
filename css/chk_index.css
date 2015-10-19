@@ -1,1 +1,29 @@
-c
+    <style>
+      body {
+      margin: 0 auto;
+      padding: 0;
+      background-color: #ffffff;
+      color: #000000;
+      font-size: 100%;
+      }
+      
+      #container {
+      width: 90%;
+      background: url(sidebar 200.gif) repeat-y right;
+      background-color: #ffffff;
+      border-left: 10px #c0c0c0 solid;
+      border-right: 10px #c0c0c0 solid;
+      }
+      
+      #chizu {
+      width: 80%;
+      float: left;
+      }
+      #nav {
+      width: 20%;
+      float: right;
+      text-align:center;
+      margin-left: auto;
+      margin-right: auto;
+      }
+    </style>
