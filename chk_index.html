@@ -75,8 +75,9 @@ alert(ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857'));
 		        'type': 'Point',
                        
 // 'coordinates': [0.0,0.0]
-		        'coordinates': [ 1390000.00, 350000.00]
-//                   'coordinates':ol.projtransform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857')
+		        //'coordinates': [ 1390000.00, 350000.00]
+
+                  'coordinates':ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857')
 		      }
 		    }
 		   ]
@@ -113,11 +114,11 @@ alert(ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857'));
         ],
           
         view: new ol.View({
-          center: [1390000.00, 350000.00],
+//          center: [1390000.00, 350000.00],
 //          center: ol.proj.transform([10.0, 20.0], 'EPSG:4326', 'EPSG:3857'),
-//          center: ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857'),
+          center: ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857'),
 //          zoom: 3
-          zoom: 16
+          zoom: 6
         })
       });
       
