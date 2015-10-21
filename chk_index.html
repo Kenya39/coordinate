@@ -6,7 +6,7 @@
 <!--
     <link ref="stylesheet" href="css/chk_index.css" type="text/css"></link>
 -->
-<title>1350chk_index</title>
+<title>2118chk_index</title>
 <style>
       body {
       margin: 0 auto;
@@ -64,7 +64,7 @@
  		    'type': 'name',
  		    'properties': {
  //		      'name': 'EPSG:2451'
- 		      'name': 'EPSG:4326'
+// 		      'name': 'EPSG:4326'
 //                      'name': 'EPSG:3857'
  		    }},
 		  'features': [
@@ -75,9 +75,9 @@
 		        'type': 'Point',
                        
 // 'coordinates': [0.0,0.0]
-		        'coordinates': [ 139.34, 35.66]
+		        //'coordinates': [ 139.34, 35.66]
 
-                  //'coordinates':ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857')
+                  'coordinates':ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857')
 		      }
 		    }
 		   ]
@@ -85,7 +85,9 @@
 		   
 		   
 		 var vectorSource = new ol.source.Vector({
-		   features: (new ol.format.GeoJSON({defaultProjection: 'EPSG:4326'})).readFeatures(geojsonObject)
+//		   features: (new ol.format.GeoJSON({defaultProjection: 'EPSG:4326'})).readFeatures(geojsonObject)
+
+		   features: (new ol.format.GeoJSON()).readFeatures(geojsonObject)
 		 });
 		 var vectorLayer = new ol.layer.Vector({
            projection: 'EPSG:3857',
