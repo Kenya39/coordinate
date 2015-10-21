@@ -73,7 +73,7 @@
 		      'properties': { "id": 1 },
 		      'geometry': {
 		        'type': 'Point',
-                        'coordinates': [0.0,0.0]
+                        'coordinates': [10.0,20.0]
 //		        'coordinates': [ 139.34, 35.66]
 //                   'coordinates':ol.projtransform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857')
 		      }
@@ -113,7 +113,7 @@
           
         view: new ol.View({
 //          center: [0.0, 0.0],
-          center: ol.proj.transform([0.0, 0.0], 'EPSG:4326', 'EPSG:3857'),
+          center: ol.proj.transform([10.0, 20.0], 'EPSG:4326', 'EPSG:3857'),
 //          center: ol.proj.transform([139.34, 35.66], 'EPSG:4326', 'EPSG:3857'),
 //          zoom: 3
           zoom: 16
