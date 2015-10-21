@@ -85,7 +85,7 @@
 		   
 		   
 		 var vectorSource = new ol.source.Vector({
-		   features: (new ol.format.GeoJSON({defaultProjection: 'EPSG:4326'})).readFeatures(geojsonObject)
+		   features: (new ol.format.GeoJSON()).readFeatures(geojsonObject, {featureProjection: 'EPSG:4326'})
 
 //		   features: (new ol.format.GeoJSON()).readFeatures(geojsonObject)
 		 });
