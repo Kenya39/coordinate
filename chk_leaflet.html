@@ -51,7 +51,8 @@ var geojsonFeature = {
         "coordinates": [139.341, 35.661]
     }
 };
-L.geoJson(geojsonFeature).addTo(map);
+var L.geoJson(geojsonFeature)
+geoJson.addTo(map);
 	
 // add layers
 var baseLayers = {
@@ -59,6 +60,7 @@ var baseLayers = {
 };
 var overlays = {
   "Marker": mapMarker,
+  "Point" : geoJson,
 };
 				L.control.layers(baseLayers, overlays).addTo(map);				
 
