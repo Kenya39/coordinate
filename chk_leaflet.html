@@ -23,7 +23,7 @@ function init() {
 // set the view to a given place and zoom
 var map = L.map('map_elemnt');
 
-map.setView([35.66, 139.44], 11);
+map.setView([35.66, 139.34], 11);
 //map.setView([35.40, 139.50], 11);
 
 // add an OpenStreetMap tile layer
@@ -34,7 +34,7 @@ var tileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 // add a marker in the given location,
 // attach some popup content to it and open the popup
 //var mapMarker = L.marker([35.40, 139.50]);
-var mapMarker = L.marker([35.66, 139.44]);
+var mapMarker = L.marker([35.66, 139.34]);
 mapMarker.addTo(map);
 				mapMarker.bindPopup('CSS3 popup. <br> ここはどこでしょうか？');
 				mapMarker.openPopup();
