@@ -6,7 +6,7 @@
 <!--
     <link ref="stylesheet" href="css/chk_index.css" type="text/css"></link>
 -->
-<title>2124chk_index</title>
+<title>2127chk_index</title>
 <style>
       body {
       margin: 0 auto;
@@ -85,9 +85,9 @@
 		   
 		   
 		 var vectorSource = new ol.source.Vector({
-		   features: (new ol.format.GeoJSON()).readFeatures(geojsonObject, {featureProjection: 'EPSG:4326'})
+//		   features: (new ol.format.GeoJSON()).readFeatures(geojsonObject, {featureProjection: 'EPSG:4326'})
 
-//		   features: (new ol.format.GeoJSON()).readFeatures(geojsonObject)
+		   features: (new ol.format.GeoJSON()).readFeatures(geojsonObject)
 		 });
 		 var vectorLayer = new ol.layer.Vector({
            projection: 'EPSG:3857',
