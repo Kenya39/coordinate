@@ -95,7 +95,7 @@ function goMake(){
               'type': 'Polygon',
               'coordinates': [[
 ol.proj.transform([lonminS, latminS], 'EPSG:4326', 'EPSG:3857'),
-ol.proj.transform([lonminS, latmaxS, 'EPSG:4326', 'EPSG:3857')],
+ol.proj.transform([lonminS, latmaxS], 'EPSG:4326', 'EPSG:3857'),
 ol.proj.transform([lonmaxS, latmaxS], 'EPSG:4326', 'EPSG:3857'),
 ol.proj.transform([lonmaxS, latminS], 'EPSG:4326', 'EPSG:3857'),
 ol.proj.transform([lonminS, latminS], 'EPSG:4326', 'EPSG:3857')
