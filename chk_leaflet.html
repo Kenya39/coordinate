@@ -14,23 +14,44 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 
-<script>
-var map = L.map('map').setView([51.505, -0.09], 13);
+<script type='text/javascript'>
 
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    id: 'your.mapbox.project.id',
-    accessToken: 'your.mapbox.public.access.token'
-}).addTo(map);
+//leaflet OSM map
+function init() {
 
+// create a map in the "map_elemnt" div,
+// set the view to a given place and zoom
+var map = L.map('map_elemnt');
+map.setView([35.40, 139.50], 11);
+
+// add an OpenStreetMap tile layer
+var tileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+});
+				tileLayer.addTo(map);
+// add a marker in the given location,
+// attach some popup content to it and open the popup
+var mapMarker = L.marker([35.40, 139.50]);
+				mapMarker.addTo(map);
+				mapMarker.bindPopup('CSS3 popup. <br> ここはどこでしょうか？');
+				mapMarker.openPopup();
+	
+// add layers
+var baseLayers = {
+  "OpenStreetMap": tileLayer
+};
+var overlays = {
+  "Marker": mapMarker,
+};
+				L.control.layers(baseLayers, overlays).addTo(map);				
+
+// add control scale 
+L.control.scale().addTo(map);
+}
 </script>
-
 </head>
-<body>
-<p>Hello World 0955</p>
+<body onload='init();'>
 
-<div id="map"></div>
-
+  <div id='map_elemnt' style='width: 500px; height: 500px; border: solid 1px #999;'></div>
 </body>
 </html>
