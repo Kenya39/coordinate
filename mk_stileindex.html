@@ -4,6 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="./lib/coordinate.js" type="text/javascript"></script>
 
+<script src="http://openlayers.org/en/v3.10.1/build/ol.js" type="text/javascript"></script>
+
 <title>2153指定したエクステントが含まれるシンプルマップタイルのインデックスを作成する</title>
 </head>
 <body>
@@ -36,6 +38,7 @@ function goMake(){
   var coordMin = new coordinate(9);
   var coordMax = new coordinate(9);
   var coordWrk = new coordinate(9);
+//  var coordWrkMax = new coordinate(9);
 
   // Extentの最小値側のタイルとそのエクステントを取得
   coordMin.setXY(xmin,ymin);
@@ -43,7 +46,7 @@ function goMake(){
   
   // Extentの最大値側のタイルとそのエクステントを取得
   coordMax.setXY(xmax,ymax);
-  var sTileMax = coordMax.getSTileZXY(16);
+  var sTileMax = coordMax.getSTileZXY(zoomL);
   
   var featuresXYArray = new Array();
   var featuresLonLatArray = new Array();
@@ -61,20 +64,28 @@ function goMake(){
 //      var sExtentMax = tile2extent(sTileMax);
       
       coordWrk.setLonLat(sExtent[0],sExtent[1]);
-      xminS = coordWrk.X;
-      yminS = coordWrk.Y;
+      x00 = coordWrk.X;
+      y00 = coordWrk.Y;
   
-      coordWrk.setXY(xminS,yminS);
-      lonminS = coordWrk.Lon;
-      latminS = coordWrk.Lat;
+//      coordWrkMin.setXY(xminS,yminS);
+//      lonminS = coordWrkMin.Lon;
+//      latminS = coordWrkMin.Lat;
   
-      coordWrk.setLonLat(sExtent[2],sExtent[3]);
-      xmaxS = coordWrk.X;
-      ymaxS = coordWrk.Y;
+      coordWrk.setLonLat(sExtent[0],sExtent[3]);
+      x01 = coordWrk.X;
+      y01 = coordWrk.Y;
 
-      coordWrk.setXY(xmaxS,ymaxS);
-      lonmaxS = coordWrk.Lon;
-      latmaxS = coordWrk.Lat;
+      coordWrk.setLonLat(sExtent[2],sExtent[3]);
+      x11 = coordWrk.X;
+      y11 = coordWrk.Y;
+
+      coordWrk.setLonLat(sExtent[2],sExtent[1]);
+      x10 = coordWrk.X;
+      y10 = coordWrk.Y;
+
+//      coordWrkMax.setXY(xmaxS,ymaxS);
+//      lonmaxS = coordWrkMax.Lon;
+//      latmaxS = coordWrkMax.Lat;
       
       stileID = zoomL + '/' + i +'/' + j;
       
@@ -83,26 +94,33 @@ function goMake(){
             'properties': { 'zxy': stileID },
             'geometry': {
               'type': 'Polygon',
-              'coordinates': [[[xminS, yminS],[xminS, ymaxS],[xmaxS, ymaxS],[xmaxS, yminS],[xminS, yminS]]]
+              'coordinates': [[[x00, y00],[x01, y01],[x11, y11],[x10, y10],[x00, y00]]]
             }
           };
       featuresXYArray[featureNum] = featureXYObj;
 
-      var featureLonLatObj = {
-            'type': 'Feature',
-            'properties': { 'zxy': stileID },
-            'geometry': {
-              'type': 'Polygon',
-              'coordinates': [[
-ol.proj.transform([lonminS, latminS], 'EPSG:4326', 'EPSG:3857'),
-ol.proj.transform([lonminS, latmaxS], 'EPSG:4326', 'EPSG:3857'),
-ol.proj.transform([lonmaxS, latmaxS], 'EPSG:4326', 'EPSG:3857'),
-ol.proj.transform([lonmaxS, latminS], 'EPSG:4326', 'EPSG:3857'),
-ol.proj.transform([lonminS, latminS], 'EPSG:4326', 'EPSG:3857')
-]]
-            }
-          };
-      featuresLonLatArray[featureNum] = featureLonLatObj;
+//      var featureLonLatObj = {
+//            'type': 'Feature',
+//            'properties': { 'zxy': stileID },
+//            'geometry': {
+//              'type': 'Polygon',
+//              'coordinates': [[
+//
+////ol.proj.transform([lonminS, latminS], 'EPSG:4326', 'EPSG:3857'),
+////ol.proj.transform([lonminS, latmaxS], 'EPSG:4326', 'EPSG:3857'),
+////ol.proj.transform([lonmaxS, latmaxS], 'EPSG:4326', 'EPSG:3857'),
+////ol.proj.transform([lonmaxS, latminS], 'EPSG:4326', 'EPSG:3857'),
+////ol.proj.transform([lonminS, latminS], 'EPSG:4326', 'EPSG:3857')
+//
+//[lonminS, latminS],
+//[lonminS, latmaxS],
+//[lonmaxS, latmaxS],
+//[lonmaxS, latminS],
+//[lonminS, latminS]
+//]]
+//            }
+//          };
+//      featuresLonLatArray[featureNum] = featureLonLatObj;
       
       featureNum ++;
 
@@ -113,18 +131,20 @@ ol.proj.transform([lonminS, latminS], 'EPSG:4326', 'EPSG:3857')
         'type': 'FeatureCollection',
         'features': featuresXYArray
       }
-
-      var geojsonObjectLonLat = {
-        'type': 'FeatureCollection',
-        'features': featuresLonLatArray
-      }
+      
+//      var geojsonObjectLonLat = {
+//        'type': 'FeatureCollection',
+//        'features': featuresLonLatArray
+//      }
   
     var json_textXY =  JSON.stringify(geojsonObjectXY);
-    var json_textLonLat =  JSON.stringify(geojsonObjectLonLat);
+//    var json_textLonLat =  JSON.stringify(geojsonObjectLonLat);
   
-//    document.write(json_textXY) 
     document.write("<br/>") 
-    document.write(json_textLonLat) 
+    document.write("<br/>") 
+    document.write(json_textXY) 
+//    document.write("<br/>") 
+//    document.write(json_textLonLat) 
   
 
 
